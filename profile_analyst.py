@@ -1,10 +1,10 @@
 """
 Load ADV measurements and calculate TKE with plot options
-Originally coded in Matlab at Nepf LAb (MIT)
+Originally coded in Matlab at Nepf Lab (MIT)
 Re-written in Python by Sebastian Schwindt (2022)
 """
 
-# import relevant standard Python libraries
+# import standard Python libraries
 import sys
 import os
 # import particular Python libraries
@@ -17,8 +17,9 @@ except ImportError as e:
 
 # import global variable names from config
 from config import *
+from profile_plotter import *
 from flowstat import flowstat
-from rmspike import  rmspike
+from rmspike import rmspike
 
 
 def load_input_defs(file_name=SCRIPT_DIR+"input.xlsx"):
@@ -81,7 +82,7 @@ def vna_file_name2coordinates(vna_file_name):
         try:
             xyz_list[i] = float(coord) / 100.
         except ValueError:
-            print("WARNING: Could not convert {0} to coordinate in file {1}".format(
+            logging.warning("WARNING: Could not convert {0} to coordinate in file {1}".format(
                 str(coord), vna_file_name))
             xyz_list[i] = np.nan
     return xyz_list
@@ -109,15 +110,14 @@ def get_data_info(folder_name="test-example"):
         index=[s.strip(".vna") for s in vna_file_names],
         columns=["x (m)", "y (m)", "z (m)"]
     )
-
     return {"vna files": vna_file_names, "probe positions": probe_position_df}
 
 
-def build_stats_summary(vna_stats, experiment_info, profile_type, bulk_velocity, log_length):
+def build_stats_summary(vna_stats_dict, experiment_info, profile_type, bulk_velocity, log_length):
     """Re-organize the stats dataset and assign probe coordinates
 
     Args:
-        vna_stats (dict): the result of the flowstat.flowstat function
+        vna_stats_dict (dict): the result of all vna files processed with the flowstat.flowstat function
         experiment_info (dict): the result of the get_data_info function for retrieving probe positions
         profile_type (str): profile orientation as a function of sensor position; the default is lp corresponding to DOWN (ignores w2 measurements)
         bulk_velocity (float): bulk streamwise flow velocity in m/s (from input.xlsx)
@@ -127,51 +127,63 @@ def build_stats_summary(vna_stats, experiment_info, profile_type, bulk_velocity,
         Organized overview pandas.DataFrame with measurement stats, ready for dumping to workbook
     """
 
-    data = [
-        experiment_info["probe positions"]["x (m)"],
-        experiment_info["probe positions"]["y (m)"],
-        experiment_info["probe positions"]["z (m)"],
-        vna_stats["u STAT (m/s)"]["average"], vna_stats["u STAT (m/s)"]["stderr"], vna_stats["u STAT (m/s)"]["std"],
-        vna_stats["v STAT (m/s)"]["average"], vna_stats["v STAT (m/s)"]["stderr"], vna_stats["v STAT (m/s)"]["std"],
-        vna_stats["w STAT (m/s)"]["average"], vna_stats["w STAT (m/s)"]["stderr"], vna_stats["w STAT (m/s)"]["std"],
-        vna_stats["TKE (m^2/s^2)"],
-        vna_stats["tau_v STAT (m^2/s^2)"]["average"], vna_stats["tau_v STAT (m^2/s^2)"]["stderr"],
-        vna_stats["tau_v STAT (m^2/s^2)"]["std"],
-        vna_stats["tau_w STAT (m^2/s^2)"]["average"], vna_stats["tau_w STAT (m^2/s^2)"]["stderr"],
-        vna_stats["tau_w STAT (m^2/s^2)"]["std"],
-    ]
-
-    if not(profile_type == "lp"):
-        data.extend(
-            [vna_stats["w2 STAT (m/s)"]["average"], vna_stats["w2 STAT (m/s)"]["stderr"],
-             vna_stats["w2 STAT (m/s)"]["std"], vna_stats["TKE2 (m^2/s^2)"],
-             vna_stats["tau_w2 STAT (m^2/s^2)"]["average"], vna_stats["tau_w2 STAT (m^2/s^2)"]["stderr"],
-             vna_stats["tau_w2 STAT (m^2/s^2)"]["std"],
-             ]
+    data = []
+    for vna_fn, vna_stats in vna_stats_dict.items():
+        data.append([
+            experiment_info["probe positions"]["x (m)"][vna_fn],
+            experiment_info["probe positions"]["y (m)"][vna_fn],
+            experiment_info["probe positions"]["z (m)"][vna_fn],
+            vna_stats["u STAT (m/s)"]["average"], vna_stats["u STAT (m/s)"]["stderr"], vna_stats["u STAT (m/s)"]["std"],
+            vna_stats["v STAT (m/s)"]["average"], vna_stats["v STAT (m/s)"]["stderr"], vna_stats["v STAT (m/s)"]["std"],
+            vna_stats["w STAT (m/s)"]["average"], vna_stats["w STAT (m/s)"]["stderr"], vna_stats["w STAT (m/s)"]["std"],
+            vna_stats["TKE (m^2/s^2)"],
+            vna_stats["tau_v STAT (m^2/s^2)"]["average"], vna_stats["tau_v STAT (m^2/s^2)"]["stderr"],
+            vna_stats["tau_v STAT (m^2/s^2)"]["std"],
+            vna_stats["tau_w STAT (m^2/s^2)"]["average"], vna_stats["tau_w STAT (m^2/s^2)"]["stderr"],
+            vna_stats["tau_w STAT (m^2/s^2)"]["std"],
+        ]
         )
+        # append u_norm, x_norm, TKE_norm and TKE-ad
+        data[-1].extend([
+            vna_stats["u STAT (m/s)"]["average"] / bulk_velocity,
+            experiment_info["probe positions"]["x (m)"][vna_fn] / log_length,
+            vna_stats["TKE (m^2/s^2)"] / (bulk_velocity ** 2),
+            0.5 * (vna_stats["u STAT (m/s)"]["std"] ** 2 + vna_stats["v STAT (m/s)"]["std"] ** 2) / (
+                        bulk_velocity ** 2),
+        ]
+        )
+        if not(profile_type == "lp"):
+            data[-1].extend(
+                [vna_stats["w2 STAT (m/s)"]["average"], vna_stats["w2 STAT (m/s)"]["stderr"],
+                 vna_stats["w2 STAT (m/s)"]["std"], vna_stats["TKE2 (m^2/s^2)"],
+                 vna_stats["tau_w2 STAT (m^2/s^2)"]["average"], vna_stats["tau_w2 STAT (m^2/s^2)"]["stderr"],
+                 vna_stats["tau_w2 STAT (m^2/s^2)"]["std"],
+                 ]
+            )
 
     column_headers = ["x (m)", "y (m)", "z (m)"]
-    for par, stats in vna_stats:
-        for stat_type in stats.keys():
-            column_headers.append(par.replace("STAT", stat_type))
-
-    # append u_norm, x_norm, TKE_norm and TKE-ad
-    data.extend([
-        vna_stats["u STAT (m/s)"]["average"] / bulk_velocity,
-        experiment_info["probe positions"]["x (m)"] / log_length,
-        vna_stats["TKE (m^2/s^2)"] / (bulk_velocity ** 2),
-        0.5 * (vna_stats["u STAT (m/s)"]["std"] ** 2 + vna_stats["v STAT (m/s)"]["std"] ** 2) / (bulk_velocity ** 2),
-        ]
-    )
+    for par, stats in vna_stats_dict[list(vna_stats_dict.keys())[0]].items():
+        if type(stats) is dict:
+            for stat_type in stats.keys():
+                if (profile_type == "lp") and not(("w2" in par) or ("TKE2" in par)):
+                    column_headers.append(par.replace("STAT", stat_type))
+                if not(profile_type == "lp"):
+                    column_headers.append(par.replace("STAT", stat_type))
+        else:
+            if (profile_type == "lp") and not ("TKE2" in par):
+                column_headers.append(par)
+            if not(profile_type == "lp"):
+                column_headers.append(par)
     column_headers.extend(["u norm. (-)", "x norm. (-)", "TKE norm. (-)", "TKE 2d norm. (-)"])
 
     return pd.DataFrame(
         data=data,
         columns=column_headers,
-        index=experiment_info["vna files"]
+        index=list(vna_stats_dict.keys())
     )
 
 
+@log_actions
 def process_vna_files(input_file_name):
     """Main function controlling vna file processing.
     Writes full despiked data series and stats series to xlsx workbooks.
@@ -182,8 +194,10 @@ def process_vna_files(input_file_name):
     experiment_setup = load_input_defs(file_name=input_file_name)
     experiment_meta = get_data_info(experiment_setup["folder name"])
     target_folder = SCRIPT_DIR + "data/" + experiment_setup["folder name"]
+    vna_stats_dict = {}
+    vna_stats_dict_despiked = {}
     for vna_fn in experiment_meta["vna files"]:
-        print(" * loading %s ..." % vna_fn)
+        print("\n   *** *** processing %s *** ***" % vna_fn)
         vna_df = read_vna(target_folder + "/" + vna_fn)
         print(" * writing raw data to %s " % str(target_folder + "/%s-raw.xlsx" % vna_fn.split(".vna")[0]))
         vna_df.to_excel(str(target_folder + "/%s-raw.xlsx" % vna_fn.split(".vna")[0]))
@@ -195,17 +209,7 @@ def process_vna_files(input_file_name):
                                               w2=vna_df["w2 (m/s)"].to_numpy(),
                                               profile_type=experiment_setup["profile"]
                                               )
-        print(" * writing data stats with spikes to %s " % str(
-            target_folder + "/%s-stats-with-spikes.xlsx" % vna_fn.split(".vna")[0]))
-        stats4write_df = build_stats_summary(
-            vna_stats=vna_stats,
-            experiment_info=experiment_meta,
-            bulk_velocity=experiment_setup["bulk velocity"],
-            profile_type=experiment_setup["profile"],
-            log_length=experiment_setup["characteristic wood length"]
-        )
-        stats4write_df.to_excel(target_folder + "/%s-stats-with-spikes.xlsx" % vna_fn.split(".vna")[0])
-
+        vna_stats_dict.update({vna_fn.split(".vna")[0]: vna_stats})
         print(" * launching spike removal ...")
         spike_df, vna_df = rmspike(
             vna_df,
@@ -214,14 +218,14 @@ def process_vna_files(input_file_name):
             w_stats=vna_stats["w STAT (m/s)"],
             w2_stats=vna_stats["w2 STAT (m/s)"],
             freq=experiment_setup["freq"],
-            lambda_a=experiment_setup["Despike lambda a"],
-            k=experiment_setup["Despike k"],
+            lambda_a=experiment_setup["lambda a"],
+            k=experiment_setup["despike k"],
             method=experiment_setup["despiking method"],
             profile_type=experiment_setup["profile"]
         )
-        print(" * writing spike counts to %s " % str(target_folder + "/%s-spikes.xlsx" % vna_fn.split(".vna")[0]))
+        print(" *  Writing spike counts to %s " % str(target_folder + "/%s-spikes.xlsx" % vna_fn.split(".vna")[0]))
         spike_df.to_excel(target_folder + "/%s-spikes.xlsx" % vna_fn.split(".vna")[0])
-        print(" * writing de-spiked data to %s " % str(target_folder + "/%s-despiked.xlsx" % vna_fn.split(".vna")[0]))
+        print(" *  Writing de-spiked data to %s " % str(target_folder + "/%s-despiked.xlsx" % vna_fn.split(".vna")[0]))
         spike_df.to_excel(target_folder + "/%s-spikes.xlsx" % vna_fn.split(".vna")[0])
 
         print(" * re-calculating stats with despiked data ...")
@@ -232,17 +236,35 @@ def process_vna_files(input_file_name):
                                                        w2=vna_df["w2 (m/s)"].to_numpy(),
                                                        profile_type=experiment_setup["profile"]
                                                        )
-        print(" * writing despiked data stats to %s " % str(target_folder + "/%s-stats-despiked.xlsx" % vna_fn.split(".vna")[0]))
-        stats4write_df = build_stats_summary(
-            vna_stats=vna_stats_despiked,
-            experiment_info=experiment_meta,
-            bulk_velocity=experiment_setup["bulk velocity"],
-            profile_type=experiment_setup["profile"],
-            log_length=experiment_setup["characteristic wood length"]
-        )
-        stats4write_df.to_excel(target_folder + "/%s-stats-despiked.xlsx" % vna_fn.split(".vna")[0])
+        vna_stats_dict_despiked.update({vna_fn.split(".vna")[0]: vna_stats_despiked})
 
-        print("-- DONE -- ALL TASKS FINISHED --")
+    print("- Writing data stats with spikes to %s " % str(target_folder + "/stats-with-spikes.xlsx"))
+    stats4write_df = build_stats_summary(
+        vna_stats_dict=vna_stats_dict,
+        experiment_info=experiment_meta,
+        bulk_velocity=experiment_setup["bulk velocity"],
+        profile_type=experiment_setup["profile"],
+        log_length=experiment_setup["characteristic wood length"]
+    )
+    stats4write_df.to_excel(target_folder + "/stats-with-spikes.xlsx")
+    print("- Creating and saving plot of norm. TKE with spikes to %s " % str(target_folder + "/norm-tke-x-spikes.png"))
+    plot_xy(stats4write_df["x norm. (-)"].to_numpy(), stats4write_df["TKE norm. (-)"].to_numpy(), target_folder + "/norm-tke-x-spike.png")
+
+    print("- Writing despiked data stats to %s " % str(target_folder + "/stats-despiked.xlsx"))
+    stats4write_df = build_stats_summary(
+        vna_stats_dict=vna_stats_dict_despiked,
+        experiment_info=experiment_meta,
+        bulk_velocity=experiment_setup["bulk velocity"],
+        profile_type=experiment_setup["profile"],
+        log_length=experiment_setup["characteristic wood length"]
+    )
+    stats4write_df.to_excel(target_folder + "/stats-despiked.xlsx")
+
+    print("- Creating and saving plot of norm. TKE with spikes to %s " % str(target_folder + "/norm-tke-x-spikes.png"))
+    plot_xy(stats4write_df["x norm. (-)"].to_numpy(), stats4write_df["TKE norm. (-)"].to_numpy(),
+            target_folder + "/norm-tke-x-despiked.png")
+
+    print("\n-- DONE -- ALL TASKS FINISHED --")
 
 
 if __name__ == '__main__':

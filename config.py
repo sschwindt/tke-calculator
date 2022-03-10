@@ -1,4 +1,6 @@
 import os as _os
+import sys
+import logging
 
 
 SCRIPT_DIR = _os.path.abspath("") + "/"
@@ -20,6 +22,23 @@ HEADERS = ["File #", "x (m)", "y (m)", "z (m)",
 # silence openpyxl warnings when reading input.xlsx
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
+warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 
 
+def log_actions(fun):
+    def wrapper(*args, **kwargs):
+        start_logging()
+        fun(*args, **kwargs)
+        logging.shutdown()
+    return wrapper
 
+
+def start_logging():
+    # logging.root.handlers = []
+    logging.basicConfig(filename="logfile.log",
+                        format="[%(asctime)s] %(message)s",
+                        filemode="w", level=logging.WARNING,
+                        )
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    # disable font warnings from matplotlib
+    logging.getLogger("matplotlib.font_manager").disabled = True

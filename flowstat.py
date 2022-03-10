@@ -1,4 +1,5 @@
 import numpy as np
+import logging
 
 
 def flowstat(time, u, v, w1, w2, profile_type="lp"):
@@ -81,11 +82,16 @@ def flowstat(time, u, v, w1, w2, profile_type="lp"):
         }
     else:
         # build empty data structures for longitudinal profiling
-        tau_re2 = np.nan
-        k_t2 = np.nan
-        tau_re2_stats = np.nan
+        w2_stats = {
+            "average": np.nan,
+            "std": np.nan,
+            "stderr": np.nan,
+        }
+        tau_re2 = {"nan": np.nan}
+        k_t2 = {"nan": np.nan}
+        tau_re2_stats = {"nan": np.nan}
     # update output data
     time_series.update({"tau_w2 (m^2/s^2)": tau_re2})
-    stats.update({"TKE2 (m^2/s^2)": k_t2, "tau_w2 STAT (m^2/s^2)": tau_re2_stats})
+    stats.update({"TKE2 (m^2/s^2)": k_t2, "tau_w2 STAT (m^2/s^2)": tau_re2_stats, "w2 STAT (m/s)": w2_stats})
 
     return time_series, stats

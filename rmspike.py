@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import logging
 
 
 def rmspike(vna_df, u_stats, v_stats, w_stats, w2_stats=None,
