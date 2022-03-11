@@ -81,7 +81,7 @@ myst_deflist_enable = True
 myst_url_schemes = ("http", "https", "mailto")
 panels_add_bootstrap_css = False
 
-html_theme = "sphinx_rtd_theme"  # "" bizstyle
+html_theme = "sphinx_rtd_theme"  # nature
 html_theme_options = {
 
     "theme_dev_mode": True,
