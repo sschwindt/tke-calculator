@@ -1,5 +1,8 @@
 # tke-calculator
 
+Read the detailed Python code docs at https://tke-calculator.readthedocs.io/
+
+
 ## Requirements
 
 Python `>=3.6`

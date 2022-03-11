@@ -61,6 +61,11 @@ If you are struggling with the dark window and blinking cursor of Anaconda Promp
 .. toctree::
     :hidden:
 
+    Usage <usage>
+
+.. toctree::
+    :hidden:
+
     Developer Docs <codedocs>
 
 .. toctree::
