@@ -10,8 +10,8 @@ The code was originally developed in Matlab(R) at the `Nepf Environmental Fluid 
 
 .. important::
 
-    ``*.vno`` and ``*.vna`` files need to comply with the following name convetion:
-    ``XX_YY_ZZ_something.vna`` where ``XX``, ``YY``, and ``ZZ`` are streamwise (x), perpendicular (y), and vertical (z) coordinates in CENTIMETERS, respectively. Anything else added after ``ZZ_`` is ignore by the code (it just copies it for the sake of dataset naming).
+    ``*.vno`` and ``*.vna`` files need to comply with the following name convention:
+    ``XX_YY_ZZ_something.vna`` where ``XX``, ``YY``, and ``ZZ`` are streamwise (x), perpendicular (y), and vertical (z) coordinates in CENTIMETERS, respectively. Anything else added after ``ZZ_`` is ignored by the code (it just copies it for the sake of dataset naming).
 
 .. note::
 
@@ -49,7 +49,7 @@ If you are struggling with the dark window and blinking cursor of Anaconda Promp
 
 .. note::
 
-    Alternatively, create a new conda environment to install the three libraries for this application. However, creating a new environment may eat up a lot of disk space and installing the Python-omnipresent libraries NumPy, Openpyxl, Pandas, and Maplotlib in the **base** environment does not hurt.
+    Alternatively, create a new conda environment to install the three libraries for this application. However, creating a new environment may eat up a lot of disk space, and installing the Python-omnipresent libraries NumPy, Openpyxl, Pandas, and Maplotlib in the **base** environment does not hurt.
 
 Download tke-analyst Code
 -------------------------
@@ -60,7 +60,7 @@ The code can be either started from Terminal (Anaconda Prompt) or within an Inte
 
 .. tip::
 
-    Alternative to downloading the zip file, you may want to ``git clone`` the repository, which enables regular updating of the code (e.g., if there is an update of plot functions available). For using git, make sure that `git bash <https://git-scm.com/downloads>`_ is installed on your computer. Then, open git bash, `cd <https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/cd>`_ into the directory where you want to download the code and type:
+    Alternatively to downloading the zip file, you may want to ``git clone`` the repository, which enables regular updating of the code (e.g., if there is an update of plot functions available). For using git, make sure that `git bash <https://git-scm.com/downloads>`_ is installed on your computer. Then, open git bash, `cd <https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/cd>`_ into the directory where you want to download the code and type:
 
     ``git clone https://github.com/sschwindt/tke-calculator.git``
 
@@ -89,6 +89,5 @@ The code can be either started from Terminal (Anaconda Prompt) or within an Inte
     :hidden:
 
     License <license>
-
 
 
