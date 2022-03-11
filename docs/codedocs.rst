@@ -8,13 +8,13 @@ The following sections provide details of functions, their arguments, and output
 config.py
 ---------
 
-.. automodule:: ..config
+.. automodule:: config
     :members:
 
 flowstat.py
 -----------
 
-.. automodule:: .flowstat
+.. automodule:: flowstat
     :members:
 
 profile_analyst.py
