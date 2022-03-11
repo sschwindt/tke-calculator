@@ -43,7 +43,6 @@ language = "en"
 
 extensions = [
     "sphinx.ext.intersphinx",
-    "sphinx_togglebutton",
     # "sphinxcontrib.bibtex",
     "sphinx.ext.autodoc",
     "sphinx.ext.mathjax",
