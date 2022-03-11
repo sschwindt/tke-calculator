@@ -1,3 +1,4 @@
+"""Global parameters settings (essentially SCRIPT_DIR) and message logging controls."""
 import os as _os
 import sys
 import logging
