@@ -14,27 +14,27 @@ config.py
 flowstat.py
 -----------
 
-.. automodule:: ..flowstat
+.. automodule:: .flowstat
     :members:
 
 profile_analyst.py
 ------------------
 
-.. automodule:: ../profile_analyst.py
+.. automodule:: profile_analyst
     :members:
 
 
 profile_plotter.py
 ------------------
 
-.. automodule:: ../profile_plotter.py
+.. automodule:: profile_plotter
     :members:
 
 
 rmspike.py
 ----------
 
-.. automodule:: ../rmspike.py
+.. automodule:: rmspike
     :members:
 
 

@@ -33,7 +33,7 @@ def load_input_defs(file_name=SCRIPT_DIR+"input.xlsx"):
     """
     input_xlsx_df = pd.read_excel(file_name, header=0, index_col=0)
     return {
-        "folder name": input_xlsx_df["VALUE"]["Input folder name (HOME/data/)"],
+        "folder name": input_xlsx_df["VALUE"]["Input folder name (tke-analyst/)"],
         "profile": PROFILE_KEYS[input_xlsx_df["VALUE"]["ADV direction"]],
         "bulk velocity": input_xlsx_df["VALUE"]["Flow velocity"],
         "bulk depth": input_xlsx_df["VALUE"]["Water depth"],
@@ -102,7 +102,7 @@ def get_data_info(folder_name="test-example"):
     """
     # get vna file names
     vna_file_names = [f for f in os.listdir(
-        SCRIPT_DIR + "data/" + folder_name) if f.endswith(".vna")]
+        SCRIPT_DIR + folder_name) if f.endswith(".vna")]
 
     # construct dataframe with x-y-z positions of the probe
     probe_position_df = pd.DataFrame(
@@ -193,7 +193,7 @@ def process_vna_files(input_file_name):
     """
     experiment_setup = load_input_defs(file_name=input_file_name)
     experiment_meta = get_data_info(experiment_setup["folder name"])
-    target_folder = SCRIPT_DIR + "data/" + experiment_setup["folder name"]
+    target_folder = SCRIPT_DIR + experiment_setup["folder name"]
     vna_stats_dict = {}
     vna_stats_dict_despiked = {}
     for vna_fn in experiment_meta["vna files"]:
@@ -270,7 +270,7 @@ def process_vna_files(input_file_name):
 if __name__ == '__main__':
     print("LAUNCHING TKE PROFILE ANALYST ...")
     print("Note: vna file name must be xx_yy_zz_tt.vna alike (tt=test number).")
-    if len(sys.argv) > 1: # make sure input is provided
+    if len(sys.argv) > 1:
         # if true: call with user-specific input file.xlsx
         process_vna_files(input_file_name=str(sys.argv[1]))
     else:
