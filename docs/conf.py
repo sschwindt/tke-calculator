@@ -51,7 +51,6 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.todo",
     # "sphinxcontrib.googleanalytics",
-    "jupyter_sphinx",
 ]
 
 templates_path = ["_templates"]
