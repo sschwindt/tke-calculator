@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 lines = Path(".").joinpath("__init__.py")
-version = "1.0.7"
+version = "1.0.0"
 for line in lines.read_text().split("\n"):
     if line.startswith("__version__ ="):
         version = line.split(" = ")[-1].strip('"')
@@ -11,20 +11,20 @@ for line in lines.read_text().split("\n"):
 
 
 setup(
-    name="flusstools-docs",
+    name="tke-analyst",
     version=version,
-    python_requires=">=3.7",
-    author="FlussTeam",
+    python_requires=">=3.6",
+    author="sschwindt",
     author_email="sebastian.schwindt@iws.uni-stuttgart.de",
-    url="https://github.com/Ecohydraulics/flusstools-docs",
+    url="https://github.com/sschwindt/tke-calculator",
     project_urls={
-        "Documentation": "https://flusstools.readthedocs.io/",
+        "Documentation": "https://tke-analyst.readthedocs.io/",
         "Funding": "https://hydro-informatics.com/",
-        "Source": "https://github.com/Ecohydraulics/flusstools-docs",
+        "Source": "https://github.com/sschwindt/tke-calculator",
     },
     # this should be a whitespace separated string of keywords, not a list
-    keywords="fluvial geospatial data processing numerical model validation",
-    description="Analyze and design river ecosystems",
+    keywords="turbulent kinetic energy acoustic doppler velocimitry adv vectrino",
+    description="Analyze and despike hydrodynamic flow fluctuations",
     license="BSD License",
     long_description=Path("./README.md").read_text(),
     long_description_content_type="text/markdown",
@@ -78,8 +78,6 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
