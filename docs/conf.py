@@ -51,8 +51,6 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.todo",
     # "sphinxcontrib.googleanalytics",
-    "IPython.sphinxext.ipython_console_highlighting",
-    "IPython.sphinxext.ipython_directive",
     "myst_nb",
     "jupyter_sphinx",
 ]
