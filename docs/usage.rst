@@ -44,7 +44,7 @@ With Python installed and the code living on your computer:
 
 
 Usage Example
-=============
+-------------
 
 For example, download and unpack the code to your hard-disk in a folder called ``C:\my-project\tke-analyst\``. To analyze the ``*.vna`` files in ``test-example``, they were copied into a test folder that lives in the ``data`` folder.
 
