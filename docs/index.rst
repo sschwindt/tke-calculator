@@ -82,7 +82,8 @@ With Python installed and the code living on your computer:
 - Complete the required information on the experimental setup in ``tke-calculator/input.xlsx`` (see below figure). **IMPORTANT: Never modify column A or any list in the sourcetables sheet (unless you also modify ``load_input_defs`` in line 25ff of ``profile_analyst.py``).** The code uses the text provided in these areas of *input.xlsx* to identify setups. If useful, consider substituting the *Wood* wording in your mind and with a note in column C with your characteristic turbulence objects, but do not modify column A.
 - Open Anaconda Prompt (or any other Python-able Terminal) and:
     + ``cd`` into the code directory (e.g., ``cd "C:research\project\tke-analyst"`` if you unpacked ``tke-analyst`` to a folder living in the directory *C:research\project\*)
-    + run the code: ``python profile_analyst.py``
+    + run the code: ``python profile_analyst.py`` (uses ``input.xlsx``)
+    + ALTERNATIVELY, run with another ``*.xlsx`` input file: ``python profile_analyst.py "input-other-test.xlsx"``
     + wait until the code finished with ``-- DONE -- ALL TASKS FINISHED --``
 - After a successful run, the code will have produced the following files in ``...\tke-analyst\data\TEST`` (where ``TEST`` may correspond to ``test-example``):
     + ``.xlsx`` files of full-time series data, with spikes and despiked.
