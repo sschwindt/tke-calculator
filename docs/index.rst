@@ -108,7 +108,7 @@ The definitions in the above-shown ``input.xlsx`` define x-normalization as a fu
     :hidden:
     :maxdepth: 2
 
-    Get Started <self>
+    self
 
 .. toctree::
     :hidden:
