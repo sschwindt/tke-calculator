@@ -17,6 +17,7 @@ The code was originally developed in Matlab(R) at the `Nepf Environmental Fluid 
 
     This documentation is also as available as `style-adapted PDF <https://tke-analyst.readthedocs.io/_/downloads/en/latest/pdf/>`_.
 
+============================
 Requirements \& Installation
 ============================
 
