@@ -2,23 +2,6 @@
 Usage
 =====
 
-First-time Usage
-----------------
-
-The code can be either started from Terminal (Anaconda Prompt) or within an Integrated Development Environment (**IDE**). With Anaconda installed, consider using Spyder (Anaconda Navigator > `Spyder IDE <https://www.spyder-ide.org/>`_).
-
-`Download tke-calculator.zip <https://github.com/sschwindt/tke-calculator/archive/refs/heads/main.zip>`_  and unpack it to the directory where you want to run the code.
-
-.. tip::
-
-    Alternative to downloading the zip file, you may want to ``git clone`` the repository, which enables regular updating of the code (e.g., if there is an update of plot functions available). For using git, make sure that `git bash <https://git-scm.com/downloads>`_ is installed on your computer. Then, open git bash, `cd <https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/cd>`_ into the directory where you want to download the code and type:
-
-    ``git clone https://github.com/sschwindt/tke-calculator.git``
-
-    To update any time, ``cd`` into the directory where ``tke-calculator`` lives and type:
-
-    ``git pull --rebase``
-
 
 Regular Usage
 -------------
