@@ -43,7 +43,6 @@ language = "en"
 
 extensions = [
     "sphinx.ext.intersphinx",
-    "sphinx_copybutton",
     "sphinx_togglebutton",
     # "sphinxcontrib.bibtex",
     "sphinx.ext.autodoc",
@@ -129,7 +128,6 @@ html_logo = os.path.abspath("..") + "/docs/img/icon.svg"
 html_show_sourcelink = True
 html_title = "TKE Analyst " + version
 htmlhelp_basename = "TKE Analyst"
-html_copy_source = True
 html_sourcelink_suffix = ""
 
 
