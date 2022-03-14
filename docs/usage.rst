@@ -2,7 +2,6 @@
 Usage
 =====
 
-
 Regular Usage
 -------------
 
@@ -15,15 +14,27 @@ With Python installed and the code living on your computer:
     + run the code: ``python profile_analyst.py`` (uses ``input.xlsx``)
     + ALTERNATIVELY, run with another ``*.xlsx`` input file: ``python profile_analyst.py "input-other-test.xlsx"``
     + wait until the code finished with ``-- DONE -- ALL TASKS FINISHED --``
-- After a successful run, the code will have produced the following files in ``...\tke-analyst\TEST`` (where ``TEST`` may correspond to ``test-example``):
-    + ``.xlsx`` files of full-time series data, with spikes and despiked.
-    + ``.xlsx`` files of statistic summaries (i.e., average, standard deviation *std*, TKE) of velocity parameters with x, y, and z positions, with spikes and despiked.
-    + Two plots (``norm-tke-x.png`` and ``norm-tke-x-despiked.png``) showing normalized TKE plotted against normalized x, with spikes and despiked, respectively.
 
 .. figure:: https://github.com/sschwindt/tke-calculator/raw/main/docs/img/input-xlsx.jpg
    :alt: input turbulent tke experiment setup parameters
 
    *The interface of the input.xlsx workbook for entering experiment parameters and specifying a despiking method.*
+
+
+- After a successful run, the code will have produced the following files in ``...\tke-analyst\TEST`` (where ``TEST`` may correspond to ``test-example``):
+    + ``.xlsx`` files of full-time series data, with spikes and despiked.
+    + ``.xlsx`` files of statistic summaries (i.e., average, standard deviation *std*, TKE) of velocity parameters with x, y, and z positions, with spikes and despiked (see workbook example in the figure below).
+    + Two plots (``norm-tke-x.png`` and ``norm-tke-x-despiked.png``) showing normalized TKE plotted against normalized x, with spikes and despiked, respectively (see plot example in the figure below).
+
+.. figure:: https://github.com/sschwindt/tke-calculator/raw/main/docs/img/output-example.jpg
+   :alt: example output tke-calculator
+
+    *Exemplary output workbook of despiked statistics, such as averages, standard deviations, and standard errors of u, v, w, shear stresses (tau) and TKE.*
+
+.. figure:: https://github.com/sschwindt/tke-calculator/raw/main/docs/img/norm-tke-x-despiked.png
+   :alt: example output normalized tke plot
+
+    *Exemplary outputof normalized TKE vs. normalized x coordinates.*
 
 
 Usage Example
