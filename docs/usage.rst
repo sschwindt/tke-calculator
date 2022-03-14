@@ -8,9 +8,9 @@ Regular Usage
 With Python installed and the code living on your computer:
 
 - Copy your data to a sub-folder of ``tke-analyst`` (e.g., next to the folder ``data/test-example`` that contains three exemplary ``*.vna`` files). Make sure the files are named with ``XX_YY_ZZ_something.vna`` where ``XX``, ``YY``, and ``ZZ`` are streamwise (x), perpendicular (y), and vertical (z) coordinates in CENTIMETERS, respectively
-- Complete the required information on the experimental setup in ``tke-calculator/input.xlsx`` (see below figure). **IMPORTANT: Never modify column A or any list in the sourcetables sheet (unless you also modify ``load_input_defs`` in line 25ff of ``profile_analyst.py``).** The code uses the text provided in these areas of *input.xlsx* to identify setups. If useful, consider substituting the *Wood* wording in your mind and with a note in column C with your characteristic turbulence objects, but do not modify column A.
+- Complete the required information on the experimental setup in ``tke-calculator/input.xlsx`` (see below figure). **IMPORTANT: Never modify column A or any list in the sourcetables sheet (unless you also modify** ``load_input_defs`` **in line 25ff of** ``profile_analyst.py`` **).** The code uses the text provided in these areas of *input.xlsx* to identify setups. If useful, consider substituting the *Wood* wording in your mind and with a note in column C with your characteristic turbulence objects, but do not modify column A.
 - Open Anaconda Prompt (or any other Python-able Terminal) and:
-    + ``cd`` into the code directory (e.g., ``cd "C:research\project\tke-analyst"`` if you unpacked ``tke-analyst`` to a folder living in the directory *C:research\project\*)
+    + ``cd`` into the code directory (e.g., ``cd "C:research\project\tke-analyst"`` if you unpacked ``tke-analyst`` to a folder living in the directory ``C:\research\project\``)
     + run the code: ``python profile_analyst.py`` (uses ``input.xlsx``)
     + ALTERNATIVELY, run with another ``*.xlsx`` input file: ``python profile_analyst.py "input-other-test.xlsx"``
     + wait until the code finished with ``-- DONE -- ALL TASKS FINISHED --``
@@ -44,11 +44,11 @@ For example, download and unpack the code to your hard-disk in a folder called `
 
 The definitions in the above-shown ``input.xlsx`` define x-normalization as a function of a wood log length, in this case, the log diameter of 0.114 m.
 
-Cell ``B3`` (for **Input folder name (tke-analyst/)**) in ``input.xlsx`` defines that the input data for ``test-example`` live in a subfolder called  ``data/test-example``.
+Cell ``B3`` containing **Input folder name (tke-analyst/)** in ``input.xlsx`` defines that the input data for ``test-example`` live in a subfolder called  ``data/test-example``.
 
 .. important::
 
-    The data directory of the subfolder definition in cell ``B3`` may not end on any ``\`` or  ``/``. Also, make sure to **use the ``/`` sign for folder name separation** (do not use ``\``.
+    The data directory of the subfolder definition in cell ``B3`` may not end on any ``\`` or  ``/`` . Also, make sure to **use the** ``/`` **sign for folder name separation** (do not use ``\``).
 
 To run the code with the example data, open Anaconda Prompt (or any other Python-able Terminal) and:
     + ``cd`` into the code directory (e.g., ``cd "C:research\project\tke-analyst"`` if you unpacked ``tke-analyst`` to a folder living in the directory *C:research\project\*)
