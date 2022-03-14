@@ -15,7 +15,7 @@ The code was originally developed in Matlab(R) at the `Nepf Environmental Fluid 
 
 .. note::
 
-    This documentation is also as available as `style-adapted PDF <https://tke-analyst.readthedocs.io/_/downloads/en/latest/pdf/>`_.
+    This documentation is also as available as `style-adapted PDF <https://tke-calculator.readthedocs.io/_/downloads/en/latest/pdf/>`_.
 
 Requirements \& Installation
 ============================
@@ -28,10 +28,10 @@ Get Python
 To get the code running, the following software is needed and their installation instructions are provided below:
 
 - Python `>=3.6`
-- NumPy `>=1.20`
+- NumPy `>=1.17.4`
 - Openpyxl `3.0.3`
-- Pandas `>=1.4.1`
-- Matplotlib `>=3.5.0`
+- Pandas `>=1.3.5`
+- Matplotlib `>=3.1.2`
 
 Start with downloading and installing the latest version of `Anaconda Python <https://www.anaconda.com/products/individual>`_.  Alternatively, downloading and installing a pure `Python <https://www.python.org/downloads/>`_ interpreter will also work. Detailed information about installing Python is available in the `Anaconda Docs <https://docs.continuum.io/anaconda/install/windows/>`_ and at `hydro-informatics.com/python-basics <https://hydro-informatics.com/python-basics/pyinstall.html>`_.
 
